@@ -1,6 +1,6 @@
 <script lang="typescript">
   // Types
-  import type { AnswerObject } from "../components/HomePage.svelte"
+  import type { AnswerObject } from "./Quiz.svelte"
 
   type Props = {
     question: string
@@ -11,21 +11,15 @@
     totalQuestions: number
   }
 
-  export let PromptProps: Props
+  export let QuizProps: Props
   //Destructure the Props while keeping a reactive watch with $: tag
-  $: ({
-    question,
-    answers,
-    callback,
-    userAnswer,
-    questionNr,
-    totalQuestions,
-  } = PromptProps)
+  $: ({ question, answers, callback, userAnswer, questionNr, totalQuestions } =
+    QuizProps)
   $: correct = userAnswer?.correctAnswer === ""
   $: userClicked = userAnswer?.correctAnswer === ""
 
   $: green = userClicked && correct
-	$: red = userClicked && !correct
+  $: red = userClicked && !correct
 
   const colorChange = (e: any) => {
     let chosenAnswer = e.currentTarget.value
@@ -42,19 +36,15 @@
   <div>
     {#each answers as answer}
       <div class="Button">
-        <!-- key={answer}
-            correct={userAnswer?.correctAnswer === answer}
-            userClicked={userAnswer?.answer === answer} -->
-
         <button
           class:green
           class:red
           disabled={userAnswer ? true : false}
           value={answer}
-          on:click={callback} 
+          on:click={callback}
           on:click={colorChange}
         >
-        <!-- callback is to update score and userAnswers
+          <!-- callback is to update score and userAnswers
             colorChange is go change the color of the button based on the accuracy of the answers -->
           <span>{answer}</span>
         </button>
