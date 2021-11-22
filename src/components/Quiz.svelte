@@ -11,23 +11,22 @@
   // Components
   import QuizBox from "./QuizBox.svelte"
   import { shuffleArray } from "../utils.svelte"
-  import { Questions } from "../sample_questions"
   import { Link } from "svelte-routing"
+  import { onMount } from "svelte";
   //Types
 
   type Question = {
-    category: string
     correct_answer: string
-    difficulty: string
     incorrect_answers: string[]
     question: string
-    type: string
   }
   type QuestionsState = Question & { answers: string[] }
 
-  const TOTAL_QUESTIONS = 10
+  var TOTAL_QUESTIONS
 
   let loading = false
+  let title = ""
+  let author = ""
   let questions: QuestionsState[] = []
   let number = 0
   let userAnswers: AnswerObject[] = []
@@ -36,9 +35,37 @@
 
   //The id of the quiz with which it was loaded
   export let id: string
+  
 
-  console.log(id)
-  //Functions
+  onMount(async () => {
+  fetch(`http://localhost:8080/quiz/${id}`, 
+  {
+    method: "GET",
+    mode: 'cors',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => response.json())
+  .then(data => setData(data))
+  .catch(error => {
+    console.log(error);
+    return [];
+  });
+});
+
+  let setData = (data: any) => {
+    title = data.title
+    author = data.author
+    questions = shuffleArray(data.questions).map((question: Question) => ({
+      ...question,
+      answers: shuffleArray([
+        ...question.incorrect_answers,
+        question.correct_answer
+      ])
+    }))
+  }
+
   let startTrivia = () => {
     loading = true
     gameOver = false
@@ -46,12 +73,10 @@
     userAnswers = []
     number = 0
     loading = false
-    const newQuestions = fetchQuestions()
-    questions = shuffleArray(newQuestions)
+    TOTAL_QUESTIONS = questions.length
   }
 
   let fetchQuestions = (): QuestionsState[] => {
-    const questions = Questions
     return questions.map((question: Question) => ({
       ...question,
       answers: shuffleArray([
@@ -108,7 +133,7 @@
       <Link to="/" style="text-decoration: none">
         <h1>PROP QUIZ</h1>
       </Link>
-      {#if gameOver || userAnswers.length === TOTAL_QUESTIONS}
+      {#if gameOver}
         <button class="start" on:click={startTrivia}> Start </button>
       {/if}
       {#if !gameOver}
@@ -122,6 +147,9 @@
       {/if}
       {#if !gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTIONS - 1}
         <button class="next" on:click={nextQuestion}> Next Question </button>
+      {/if}
+      {#if userAnswers.length === TOTAL_QUESTIONS}
+        <button class="restart" on:click={startTrivia}> Restart </button>
       {/if}
       <!-- <img src="images/poster_image_background.jpg" alt="bg"/> -->
     </div>
@@ -171,6 +199,7 @@
     margin: 20px;
   }
   .start,
+  .restart,
   .next {
     cursor: pointer;
     background: linear-gradient(180deg, #ffffff, #ffcc91);
@@ -189,4 +218,12 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+  /* .restart {
+    max-width: 200px;
+
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } */
 </style>

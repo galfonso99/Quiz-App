@@ -2,55 +2,87 @@
   //Properly import questions ans choices arrays and use them in the creation of input fields
   //Pass a answersInputs array to bind the created inputs (pass as binding)
   //Pass a questionInputs array to bind the created inputs (pass as binding)
+
+  type Question = {
+    question: string
+    correct_answer: string
+    incorrect_answers: string[]
+  }
+
   export let pageNr: number
   export let questionsNr: number
+  export let choicesNr: number
   //export let questions
   //export let answerChoices: string[][]
-  export let question: string
-  export let choices: string[]
   export let enteredAllInputs: boolean
+
+  //export let quizQuestion: Question
+
+  export let question: string
+  export let correct_answer: string
+  export let incorrect_answers: string[]
+  // $: ({ question, correct_answer, incorrect_answers } = quizQuestion)
+  // export let correct_answer: string
+  // export let incorrect_answers: string[]
+
+  // let question: string = ''
+  // let correct_answer: string = ''
+  // let incorrect_answers: string[] = new Array(choicesNr-1).fill('')
 
   // set the inputs for the current page/ question box
   let questionInput = document.createElement("input") //: HTMLInputElement
-  let answersInputs = new Array(choices.length).fill(
+  let correctAnswerInput = document.createElement("input") //: HTMLInputElement
+  let incorrectAnswersInputs = new Array(choicesNr - 1).fill(
     document.createElement("input")
   ) //: HTMLInputElement[]
 
   const validate = () => {
     enteredAllInputs =
-      questionInput.value !== "" && answersInputs.every((choice) => choice.value !== "")
+      questionInput.value !== "" &&
+      correctAnswerInput.value !== "" &&
+      incorrectAnswersInputs.every((choice) => choice.value !== "")
+
     //Validate inputs by checking answerchoices values and question value passed from parent
+  }
+
+  const updateQuizQuestions = () => {
+    // console.log("hi")
+    // quizQuestions[pageNr] = {
+    //   question,
+    //   correct_answer,
+    //   incorrect_answers,
+    // } as Question
   }
 </script>
 
 <div>
   <p>Enter the information for Question #{pageNr + 1}</p>
+  <p>The order of multiple choices will be random</p>
 
   <div class="quizCreationBox">
-    <form name="contact-form">
-      <div class="form-control">
-        <div class="input-wrapper">
-          <input
-            name="question"
-            placeholder={"Enter the question for this prompt"}
-            bind:this={questionInput}
-            on:input={validate}
-            bind:value={question}
-          />
-        </div>
-      </div>
-      {#each choices as choice, i}
-        <div class="form-control">
-          <div class="input-wrapper">
-            <input
-              on:input={validate}
-              name="multiple-choices"
-              placeholder={"Enter a possible answer"}
-              bind:this={answersInputs[i]}
-              bind:value={choice}
-            />
-          </div>
-        </div>
+    <form name="contact-form" on:mouseleave={updateQuizQuestions}>
+      <input
+        bind:this={questionInput}
+        name="question"
+        placeholder={"Enter the question for this prompt"}
+        on:input={validate}
+        bind:value={question}
+      />
+      <input
+        bind:this={correctAnswerInput}
+        name="correct"
+        placeholder={"Enter the correct answer"}
+        on:input={validate}
+        bind:value={correct_answer}
+      />
+      {#each incorrect_answers as answer, i}
+        <input
+          on:input={validate}
+          bind:this={incorrectAnswersInputs[i]}
+          name="multiple-choices"
+          placeholder={"Enter an incorrect answer"}
+          bind:value={answer}
+        />
       {/each}
     </form>
   </div>
@@ -83,9 +115,9 @@
   p {
     font-size: 25px;
     font-weight: 400;
-    color: aquamarine;
+    color: rgb(238, 193, 78);
     -webkit-text-stroke-width: 0.4px;
-    -webkit-text-stroke-color: rgb(14, 98, 242);
+    -webkit-text-stroke-color: rgb(242, 120, 14);
   }
 
   p.number {
@@ -96,13 +128,11 @@
     -webkit-text-stroke-color: rgb(14, 98, 242);
   }
 
-  .form-control {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-
-  .input-wrapper {
-    display: inline-block;
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   input {
@@ -115,6 +145,8 @@
     outline: none;
     color: #333;
     float: left;
+    font-size: 20px;
+    margin-bottom: 10px;
   }
 
   button:hover {
