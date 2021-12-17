@@ -55,10 +55,6 @@
     )
   }
 
-  const trigger = () => {
-    dialog.show()
-  }
-
   const copyToClipboard = (id: string) => {
     var r = document.createRange()
     r.selectNode(document.getElementById(id))
@@ -169,8 +165,6 @@
         <button name="next" on:click={handleSettingsNext}>next</button>
       {/if}
 
-      <button name="trigger" on:click={trigger}>trigger</button>
-
       {#if pageNr >= 0 && pageNr < questionsNr - 1 && enteredAllInputs}
         <button name="next" on:click={handleNext}>next</button>
       {/if}
@@ -233,7 +227,7 @@
   }
   div.background {
     height: 100vh;
-    background-image: url("https://i.imgur.com/Ahdd5N3.jpg");
+    background-image: url("resources/poster_image_background.jpg");
     background-size: cover;
   }
 
@@ -290,15 +284,6 @@
     transition: all 0.5s;
     color: rgb(1, 52, 160);
     width: 10vw;
-
-    
-  }
-
-  button[name="trigger"] {
-    position: absolute;
-    left: 50%;
-    bottom: 5%;
-    transform: translate(-50%, -50%);
   }
 
   button[name="next"], button[name="submit"] {

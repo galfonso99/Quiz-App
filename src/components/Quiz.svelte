@@ -174,7 +174,7 @@
   }
   div.background {
     height: 100vh;
-    background-image: url("https://i.imgur.com/Ahdd5N3.jpg");
+    background-image: url("resources/poster_image_background.jpg");
     background-size: cover;
   }
 
