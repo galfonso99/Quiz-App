@@ -86,20 +86,10 @@
 </main>
 
 <style>
-  @import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
 
-  :root {
-    --border-color: #e3e5e4;
-    --background-color: #c3c7ca;
-    --text-color: #34444f;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
 
   body {
-    background-image: url("resources/poster_image_background.jpg");
+    background-image: url("/images/poster_image_background.jpg");
     background-size: cover;
     display: flex;
     flex-direction: column;

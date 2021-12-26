@@ -6,9 +6,10 @@
 
   let resultQuizzes = []
   export let query;
+  export let location;
 
   onMount(async () => {
-    fetch(`http://localhost:8080/quiz/search/${query}`, {
+    fetch(`https://rust-mongodb-backend.herokuapp.com/quiz/search/${query}`, {
       method: "GET",
       mode: "cors",
       headers: {
@@ -33,6 +34,8 @@
       }
     })
   }
+
+console.log(location)
 </script>
 
 <div class="background">
@@ -40,10 +43,23 @@
     <Link to="/" style="text-decoration: none">
       <h1>PROP QUIZ</h1>
     </Link>
-      <Search />
+      <Search value={query}/>
   </div>
   <div class="content-holder">
-
+    {#each resultQuizzes as quiz}
+    
+      <SearchQuizCard 
+        id={quiz.id}
+        title={quiz.title}
+        author={quiz.author}
+        questionsCount={quiz.questionsCount}
+      />
+    {/each}
+    {#if resultQuizzes.length === 0}
+      <div class="no-results">
+        <h2>No results found :(</h2>
+      </div>
+    {/if}
   </div>
 </div>
 
@@ -62,26 +78,28 @@
   .content-holder {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    background-color: #fff;
-    height: 90vh;
+    align-self: center;
+    width: 70vw;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    height: fit-content;
   }
 
-
-  div {
+  div.background {
+    height: 100%;
+    background-image: url("/images/poster_image_background.jpg");
+    background-size: 100%;
     display: flex;
     flex-direction: column;
     margin: 0;
     padding: 0 20px;
-    display: flex;
-    /* justify-content: center; */
+    min-height: 100vh;
   }
-  div.background {
-    height: 100vh;
-    background-image: url("resources/poster_image_background.jpg");
-    background-size: cover;
+
+  .no-results {
+    text-align: center;
+    margin-top: 60px;
+    color: white
   }
 
   h1 {

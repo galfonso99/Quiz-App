@@ -36,6 +36,7 @@
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
       },
     })
       .then((response) => response.json())
@@ -66,7 +67,7 @@
         <h1>PROP QUIZ</h1>
       </Link>
       <div class="space">
-        <Search />
+        <Search value= ""/>
       </div>
       <div class="space">
       <Link to="createQuiz">
@@ -108,7 +109,7 @@
   }
   div.background {
     height: 100vh;
-    background-image: url("resources/poster_image_background.jpg");
+    background-image: url("/images/poster_image_background.jpg");
     background-size: cover;
   }
 

@@ -87,7 +87,7 @@
       }
     })
 
-    const res = await fetch("http://localhost:8080/quiz", {
+    const res = await fetch("https://rust-mongodb-backend.herokuapp.com/quiz", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -227,7 +227,7 @@
   }
   div.background {
     height: 100vh;
-    background-image: url("resources/poster_image_background.jpg");
+    background-image: url("/images/poster_image_background.jpg");
     background-size: cover;
   }
 

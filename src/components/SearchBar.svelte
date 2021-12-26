@@ -1,6 +1,8 @@
 <script lang="ts">
   import { navigate } from "svelte-routing"
 
+  export let value;
+
   let flip_icon = false
   let input_selected = false
   let input_entered = false
@@ -18,7 +20,7 @@
 
   let search = () => {
     let query = search_input.value
-    navigate("/search/" + query)
+    window.location.href = "/search/" + query
   }
 
   let enterSearchQuery = (e: any) => {
@@ -48,6 +50,7 @@
       class="search__input"
       type="text"
       placeholder="Search"
+      value={value}
       on:focus={() => {
         ;(flip_icon = true), (input_selected = true)
       }}
@@ -95,7 +98,7 @@
     border-bottom: 3.5px solid rgb(255, 255, 255);
     border-radius: 0px;
     width: 50vw;
-    transition: all 250ms ease-in;
+    transition: border-bottom 250ms ease-in;
   }
 
   .search__input {

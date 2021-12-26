@@ -3,7 +3,7 @@
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function get({ params }) {
 
-	const data = fetch(`http://localhost:8080/quiz/recent`, 
+	const data = fetch(`https://rust-mongodb-backend.herokuapp.com/recent`, 
     {
       method: "GET",
       mode: 'cors',

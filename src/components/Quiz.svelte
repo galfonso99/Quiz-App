@@ -38,7 +38,7 @@
   
 
   onMount(async () => {
-  fetch(`http://localhost:8080/quiz/${id}`, 
+  fetch(`https://rust-mongodb-backend.herokuapp.com/quiz/${id}`, 
   {
     method: "GET",
     mode: 'cors',
@@ -174,7 +174,7 @@
   }
   div.background {
     height: 100vh;
-    background-image: url("resources/poster_image_background.jpg");
+    background-image: url("/images/poster_image_background.jpg");
     background-size: cover;
   }
 

@@ -7,7 +7,7 @@
 	
 </main>
 
-<style>
+<!-- <style>
 	main {
 		text-align: center;
 		padding: 0;
@@ -20,4 +20,4 @@
 			max-width: none;
 		}
 	}
-</style>
+</style> -->
