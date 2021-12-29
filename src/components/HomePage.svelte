@@ -31,7 +31,7 @@
   let recentQuizzes = []
 
   onMount(async () => {
-    fetch(`http://localhost:8080/quiz/recent`, {
+    fetch(`https://rust-mongodb-backend.herokuapp.com/quiz/recent`, {
       method: "GET",
       mode: "cors",
       headers: {

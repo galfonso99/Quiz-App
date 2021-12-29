@@ -270,8 +270,10 @@
     font-size: 40px;
     font-weight: 400;
     color: aquamarine;
+    text-align: center;
     -webkit-text-stroke-width: 0.7px;
     -webkit-text-stroke-color: rgb(14, 98, 242);
+
   }
 
   button {
